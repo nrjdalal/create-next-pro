@@ -7,7 +7,7 @@
   },
   "scripts": {
     "build": "npx tsc",
-    "publish": "bun run build && np prerelease --tag=beta --publish=false --yolo=true"
+    "release": "bun run build && np prerelease --tag=beta --yolo=true"
   },
   "dependencies": {
     "@inquirer/confirm": "^3.0.0",
