@@ -7,7 +7,7 @@
   },
   "scripts": {
     "build": "npx tsc",
-    "publish": "git add . && git commit -m \"`date +'%Y-%m-%d'`\" && np prerelease --tag=beta --cleanup=false"
+    "publish": "git add . && git commit -m \"`date +'%Y-%m-%d'`\" && bun run build && np prerelease --tag=beta --yolo=true"
   },
   "dependencies": {
     "@inquirer/confirm": "^3.0.0",
