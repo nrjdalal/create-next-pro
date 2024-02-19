@@ -3,15 +3,15 @@ import select from "@inquirer/select"
 import chalk from "chalk"
 import { $ } from "execa"
 import ora from "ora"
-import createNextAppOptions from "./utils/createNextApp"
-import getPackageManagers from "./utils/packageManagers"
+import createNextAppOptions from "./utils/createNextApp.js"
+import getPackageManagers from "./utils/packageManagers.js"
 
 // 0. initializing variables
 let opts
 const spinner = ora()
 
 // 1. select a package manager
-const { manager, runner } = await select({
+const { manager, runner }: any = await select({
   message: "Select a package manager",
   choices: await getPackageManagers(),
 })
