@@ -18,6 +18,10 @@ const { manager, runner } = await select({
 // 2. create a Next.js app
 opts = await createNextAppOptions()
 spinner.start("Creating a Next.js app")
-await $`rm -rf test`
-await $`${runner} create-next-app test --ts --eslint --tailwind --app ${opts.noSrcDir} --import-alias "@/*"`
+await $`${runner} create-next-app . --ts --eslint --tailwind --app ${opts.noSrcDir} --import-alias "@/*"`
 spinner.succeed(chalk.green("Successfully created a Next.js app"))
+
+// 3. install prettier and plugins
+spinner.start("Installing prettier and plugins")
+await $`${manager} add -D prettier @ianvs/prettier-plugin-sort-imports prettier-plugin-tailwindcss`
+spinner.succeed(chalk.green("Successfully installed prettier and plugins"))

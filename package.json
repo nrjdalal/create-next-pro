@@ -1,5 +1,6 @@
 {
-  "name": "nextjs-production-cli",
+  "name": "create-next-pro",
+  "version": "0.0.0",
   "module": "index.ts",
   "type": "module",
   "bin": "dist/index.js",
