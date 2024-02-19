@@ -26,3 +26,16 @@ spinner.succeed(chalk.green("Successfully created a Next.js app"))
 spinner.start("Installing prettier and plugins")
 await $`${manager} add -D prettier @ianvs/prettier-plugin-sort-imports prettier-plugin-tailwindcss`
 spinner.succeed(chalk.green("Successfully installed prettier and plugins"))
+
+// 4. configure prettier
+spinner.start("Configuring prettier")
+await $`cat << EOF > prettier.config.js
+/** @type {import('prettier').Config} */
+module.exports = {
+  semi: false,
+  plugins: [
+    '@ianvs/prettier-plugin-sort-imports',
+    'prettier-plugin-tailwindcss',
+  ],
+}
+EOF`
