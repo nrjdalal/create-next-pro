@@ -6,7 +6,8 @@
     "create-next-pro": "dist/index.js"
   },
   "scripts": {
-    "build": "npx tsc"
+    "build": "npx tsc",
+    "publish": "git add . && git commit -m '`date +'%Y-%m-%d'`' && np prerelease --tag=beta"
   },
   "dependencies": {
     "@inquirer/confirm": "^3.0.0",
@@ -18,6 +19,7 @@
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.1.1",
     "@types/node": "^20.11.19",
+    "np": "^9.2.0",
     "prettier": "^3.2.5",
     "typescript": "^5.3.3"
   }
