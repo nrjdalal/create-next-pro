@@ -20,7 +20,7 @@ const { manager, runner }: any = await select({
 // 2. create a Next.js app
 opts = await createNextAppOptions()
 spinner.start("Creating a Next.js app")
-await $`${runner} create-next-app . --ts --eslint --tailwind --app ${opts.noSrcDir} --import-alias "@/*"`
+await $`${runner} create-next-app . --ts --eslint --tailwind --app ${opts.noSrcDir} --import-alias '@/*'`
 spinner.succeed(chalk.green("Successfully created a Next.js app"))
 
 // 3. install prettier and plugins
