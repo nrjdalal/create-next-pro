@@ -1,9 +1,8 @@
 {
   "name": "create-next-pro",
-  "version": "0.0.0",
-  "module": "index.ts",
+  "version": "0.0.3",
   "type": "module",
-  "bin": "dist/index.js",
+  "bin": "./dist/index.js",
   "scripts": {
     "build": "bun build --target bun --entry src/index.ts --outdir dist"
   },

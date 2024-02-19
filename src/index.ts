@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import select from "@inquirer/select"
 import chalk from "chalk"
 import { $ } from "execa"
