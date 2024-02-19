@@ -1,6 +1,6 @@
 {
   "name": "create-next-pro",
-  "version": "0.0.3-beta.14",
+  "version": "0.0.3-beta.15",
   "type": "module",
   "bin": {
     "create-next-pro": "dist/index.js"
