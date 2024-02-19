@@ -7,7 +7,7 @@ import createNextAppOptions from "./utils/createNextApp.js"
 import getPackageManagers from "./utils/packageManagers.js"
 
 // 0. initializing variables
-let opts
+let cmd: any, opts: any
 const spinner = ora()
 
 // 1. select a package manager
@@ -29,7 +29,7 @@ spinner.succeed(chalk.green("Successfully installed prettier and plugins"))
 
 // 4. configure prettier
 spinner.start("Configuring prettier")
-await $`cat << EOF > prettier.config.js
+cmd = `cat << EOF > prettier.config.js
 /** @type {import('prettier').Config} */
 module.exports = {
   semi: false,
@@ -39,3 +39,5 @@ module.exports = {
   ],
 }
 EOF`
+await $`${cmd}`
+spinner.succeed(chalk.green("Successfully configured prettier"))
