@@ -29,15 +29,13 @@ spinner.succeed(chalk.green("Successfully installed prettier and plugins"))
 
 // 4. configure prettier
 spinner.start("Configuring prettier")
-cmd = `cat << EOF > prettier.config.js
-/** @type {import('prettier').Config} */
-module.exports = {
-  semi: false,
-  plugins: [
-    '@ianvs/prettier-plugin-sort-imports',
-    'prettier-plugin-tailwindcss',
-  ],
-}
-EOF`
-await $`${cmd}`
+// /** @type {import('prettier').Config} */
+// module.exports = {
+//   semi: false,
+//   plugins: [
+//     '@ianvs/prettier-plugin-sort-imports',
+//     'prettier-plugin-tailwindcss',
+//   ],
+// }`
+await $`${manager} eval "fs.writeFileSync('prettier.config.js', 'module.exports = { semi: false, plugins: [\'@ianvs/prettier-plugin-sort-imports\', \'prettier-plugin-tailwindcss\'] }')"`
 spinner.succeed(chalk.green("Successfully configured prettier"))
