@@ -1,15 +1,10 @@
-# nextjs-production-cli
+# Create and deploy Next.js app with lightning speed
 
-To install dependencies:
+- more than production ready
+- made with all best practices in mind
 
-```bash
-bun install
+## How to use
+
+```sh
+bunx create-next-pro
 ```
-
-To run:
-
-```bash
-bun run index.ts
-```
-
-This project was created using `bun init` in bun v1.0.27. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
