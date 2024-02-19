@@ -1,13 +1,21 @@
 {
   "name": "create-next-pro",
   "version": "0.0.3-beta.18",
-  "type": "module",
-  "bin": {
-    "create-next-pro": "dist/index.js"
+  "author": {
+    "name": "Neeraj Dalal",
+    "email": "nd941z@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nrjdalal/create-next-pro.git"
   },
   "scripts": {
     "build": "npx tsc",
     "release": "bun run build && np prerelease --tag=beta --yolo=true"
+  },
+  "type": "module",
+  "bin": {
+    "create-next-pro": "dist/index.js"
   },
   "dependencies": {
     "@inquirer/confirm": "^3.0.0",
