@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import fs from "fs/promises"
 import select from "@inquirer/select"
 import chalk from "chalk"
 import { $ } from "execa"
@@ -29,13 +30,13 @@ spinner.succeed(chalk.green("Successfully installed prettier and plugins"))
 
 // 4. configure prettier
 spinner.start("Configuring prettier")
-// /** @type {import('prettier').Config} */
-// module.exports = {
-//   semi: false,
-//   plugins: [
-//     '@ianvs/prettier-plugin-sort-imports',
-//     'prettier-plugin-tailwindcss',
-//   ],
-// }`
-await $`${manager} eval "fs.writeFileSync('prettier.config.js', 'module.exports = { semi: false, plugins: [\'@ianvs/prettier-plugin-sort-imports\', \'prettier-plugin-tailwindcss\'] }')"`
+const config = `/** @type {import('prettier').Config} */
+module.exports = {
+  semi: false,
+  plugins: [
+    '@ianvs/prettier-plugin-sort-imports',
+    'prettier-plugin-tailwindcss',
+  ],
+}`
+await fs.writeFile("prettier.config.js", config)
 spinner.succeed(chalk.green("Successfully configured prettier"))
