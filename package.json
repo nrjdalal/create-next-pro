@@ -5,10 +5,10 @@
     "name": "Neeraj Dalal",
     "email": "nd941z@gmail.com"
   },
-  // "repository": {
-  //   "type": "git",
-  //   "url": "git+https://github.com/nrjdalal/create-next-pro.git"
-  // },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nrjdalal/create-next-pro.git"
+  },
   "scripts": {
     "build": "npx tsc",
     "release": "bun run build && np prerelease --tag=beta --yolo=true"
