@@ -44,5 +44,5 @@ spinner.succeed(chalk.green("Successfully configured prettier"))
 
 // 5. add shadcn/ui to the app
 spinner.start("Adding shadcn/ui to the app")
-await $`${manager} shadcn-ui init -d`
+await $`${runner} shadcn-ui init -d`
 spinner.succeed(chalk.green("Successfully added shadcn/ui to the app"))
