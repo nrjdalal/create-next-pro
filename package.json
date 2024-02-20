@@ -11,8 +11,9 @@
   },
   "scripts": {
     "build": "npx tsc",
-    "beta": "bun run test && git add . && git commit -m 'beta' && np minor --no-release-draft --yolo=true",
-    "test": "bun run build && rm -rf test && mkdir test && cd test && bun ../dist/index.js"
+    "test": "bun run build && rm -rf test && mkdir test && cd test && bun ../dist/index.js",
+    "minor": "bun run test && git add . && git commit -m 'beta' && np minor --no-release-draft --yolo=true",
+    "major": "bun run test && git add . && git commit -m 'beta' && np major --yolo=true"
   },
   "type": "module",
   "bin": {
