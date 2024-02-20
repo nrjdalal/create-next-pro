@@ -30,7 +30,7 @@ spinner.succeed(chalk.green("Successfully installed prettier and plugins"))
 
 // 4. configure prettier
 spinner.start("Configuring prettier")
-draft = `/** @type {import('prettier').Config} */
+draft = `/** @type {import("prettier").Config} */
 module.exports = {
   semi: false,
   plugins: [
@@ -41,3 +41,8 @@ module.exports = {
 `
 await fs.writeFile("prettier.config.js", draft, "utf-8")
 spinner.succeed(chalk.green("Successfully configured prettier"))
+
+// 5. add shadcn/ui to the app
+spinner.start("Adding shadcn/ui to the app")
+await $`${manager} shadcn-ui init -d`
+spinner.succeed(chalk.green("Successfully added shadcn/ui to the app"))

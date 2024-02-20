@@ -11,7 +11,7 @@
   },
   "scripts": {
     "build": "npx tsc",
-    "beta": "bun run build && np prerelease --tag=beta --yolo=true --no-release-draft"
+    "beta": "bun run build && np prerelease --tag=beta --no-release-draft --yolo=true"
   },
   "type": "module",
   "bin": {
