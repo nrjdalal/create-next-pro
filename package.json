@@ -12,8 +12,8 @@
   "scripts": {
     "build": "npx tsc",
     "test": "bun run build && rm -rf test && mkdir test && cd test && bun ../dist/index.js",
-    "minor": "bun run test && git add . && git commit -m 'beta' && np minor --no-release-draft --yolo=true",
-    "major": "bun run test && git add . && git commit -m 'beta' && np major --yolo=true"
+    "minor": "bun run test && git add . && git commit -m 'minor' && np minor --no-release-draft --yolo=true",
+    "major": "bun run test && git add . && git commit -m 'major' && np major --yolo=true"
   },
   "type": "module",
   "bin": {

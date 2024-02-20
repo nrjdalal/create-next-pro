@@ -1,7 +1,7 @@
-import { $ } from 'execa'
+import { $ } from "execa"
 
 const getPackageManagers = async () => {
-  const packageManagers = ['bun', 'pnpm', 'npm']
+  const packageManagers = ["bun", "pnpm"]
   const availablePackageManagers = []
 
   for (const packageManager of packageManagers) {
@@ -11,12 +11,7 @@ const getPackageManagers = async () => {
         name: packageManager,
         value: {
           manager: packageManager,
-          runner:
-            packageManager === 'bun'
-              ? 'bunx'
-              : packageManager === 'pnpm'
-              ? 'pnpx'
-              : 'npx',
+          runner: packageManager === "bun" ? "bunx" : "pnpx",
         },
       })
     } catch {}
