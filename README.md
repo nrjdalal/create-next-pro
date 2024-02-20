@@ -1,8 +1,8 @@
 # Create and deploy Next.js app with lightning speed
 
-- link to package - [npmjs.com](https://www.npmjs.com/package/create-next-pro)
+- package link - [npmjs.com](https://www.npmjs.com/package/create-next-pro)
 - more than production ready
-- made with all best practices in mind
+- made with all the best practices in mind
 
 ## How to use
 

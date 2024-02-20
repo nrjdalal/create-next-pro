@@ -46,12 +46,3 @@ spinner.succeed(chalk.green("Successfully configured prettier"))
 spinner.start("Adding shadcn/ui to the app")
 await $`${runner} shadcn-ui init -d`
 spinner.succeed(chalk.green("Successfully added shadcn/ui to the app"))
-
-// cleanup
-spinner.start("Cleaning up")
-// remove .git if it exists
-try {
-  await fs.rm(".git", { recursive: true })
-} catch {}
-await $`git init`
-spinner.succeed(chalk.green("Successfully cleaned up"))
