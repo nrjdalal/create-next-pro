@@ -8,7 +8,7 @@ import createNextAppOptions from "./utils/createNextApp.js"
 import getPackageManagers from "./utils/packageManagers.js"
 
 // ~ initializing variables
-let draft: any, opts: any, src: string
+let draft: any, opts: any, replacement: any, src: string
 const spinner = ora()
 
 // ~ select a package manager
@@ -67,6 +67,21 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
 `
 await fs.mkdir(src + "components/ui", { recursive: true })
 await fs.writeFile(src + "components/ui/theme-provider.tsx", draft, "utf-8")
+draft = await fs.readFile(src + "app/layout.tsx", "utf-8")
+draft = `import { ThemeProvider } from "@/components/ui/theme-provider"
+${draft}`
+replacement = `<ThemeProvider
+attribute="class"
+defaultTheme="system"
+enableSystem
+disableTransitionOnChange
+>
+{children}
+</ThemeProvider>`
+draft = draft.replace(/{children}/g, replacement)
+await fs.writeFile(src + "app/layout.tsx", draft, "utf-8")
+await $`${runner} prettier --write ${src}app/layout.tsx`
+spinner.succeed(chalk.green("Successfully configured next-themes"))
 
 // ~ add drizzle to the app
 spinner.start("Adding drizzle to the app")
