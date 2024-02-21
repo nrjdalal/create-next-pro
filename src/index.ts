@@ -21,7 +21,7 @@ const { manager, runner }: any = await select({
 opts = await createNextAppOptions()
 opts.noSrcDir !== "--no-src-dir" ? (src = "src/") : (src = "")
 spinner.start("Creating a Next.js app")
-await $`${runner} create-next-app . --ts --eslint --tailwind --app ${opts.noSrcDir} --import-alias @/*`
+await $`${runner} create-next-app . --ts --eslint --tailwind --app ${opts.noSrcDir} --import-alias ${"@/*"}`
 spinner.succeed(chalk.green("Successfully created app"))
 
 // ~ add prettier to the app
@@ -80,7 +80,6 @@ disableTransitionOnChange
 </ThemeProvider>`
 draft = draft.replace(/{children}/g, replacement)
 await fs.writeFile(src + "app/layout.tsx", draft, "utf-8")
-await $`${runner} prettier --write ${src}app/layout.tsx`
 spinner.succeed(chalk.green("Successfully configured next-themes"))
 
 // ~ add drizzle to the app
@@ -105,8 +104,9 @@ spinner.succeed(chalk.green("Successfully configured drizzle"))
 spinner.start("Cleaning up")
 try {
   await fs.rm(".git", { recursive: true, force: true })
-  await $`git init`
-  await $`git add .`
-  await $`git commit -m "Init via ${runner} create-next-pro"`
 } catch {}
+await $`${runner} prettier --write .`
+await $`git init`
+await $`git add .`
+await $`git commit -m ${`Init via ${runner} create-next-pro`}`
 spinner.succeed(chalk.green("Successfully cleaned up"))
