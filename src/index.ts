@@ -1,112 +1,66 @@
-#!/usr/bin/env node
-import fs from "fs/promises"
-import select from "@inquirer/select"
-import chalk from "chalk"
-import { $ } from "execa"
-import ora from "ora"
-import createNextAppOptions from "./utils/createNextApp.js"
-import getPackageManagers from "./utils/packageManagers.js"
+import fs, { PathLike } from "fs"
+import packageManagerSelect from "@/lib/packageManagerSelect.js"
+import { program } from "commander"
+import conf from "conf"
 
-// ~ initializing variables
-let draft: any, opts: any, replacement: any, src: string
-const spinner = ora()
-
-// ~ select a package manager
-const { manager, runner }: any = await select({
-  message: "Select a package manager",
-  choices: await getPackageManagers(),
+const x = new conf({
+  projectName: "create-next-pro",
 })
 
-// ~ create a Next.js app
-opts = await createNextAppOptions()
-opts.noSrcDir !== "--no-src-dir" ? (src = "src/") : (src = "")
-spinner.start("Creating a Next.js app")
-await $`${runner} create-next-app . --ts --eslint --tailwind --app ${opts.noSrcDir} --import-alias ${"@/*"}`
-spinner.succeed(chalk.green("Successfully created app"))
+// clear the config if it exists
+x.clear()
 
-// ~ add prettier to the app
-spinner.start("Adding prettier")
-await $`${manager} add -D prettier @ianvs/prettier-plugin-sort-imports prettier-plugin-tailwindcss`
-spinner.succeed(chalk.green("Successfully added prettier"))
-
-// ~ configure prettier
-spinner.start("Configuring prettier")
-draft = `/** @type {import("prettier").Config} */
-module.exports = {
-  semi: false,
-  plugins: [
-    "@ianvs/prettier-plugin-sort-imports",
-    "prettier-plugin-tailwindcss",
-  ],
+type Opts = {
+  srcDir?: boolean
+  useBun?: boolean
+  usePnpm?: boolean
+  useYarn?: boolean
+  useNpm?: boolean
 }
-`
-await fs.writeFile("prettier.config.js", draft, "utf-8")
-spinner.succeed(chalk.green("Successfully configured prettier"))
 
-// ~ add shadcn-ui to the app
-spinner.start("Adding shadcn-ui to the app")
-await $`${runner} shadcn-ui init -d`
-spinner.succeed(chalk.green("Successfully added shadcn-ui"))
+program
+  .name("create-next-pro")
+  .argument("<directory>")
+  .option("--src-dir", "Initialize inside a `src/` directory")
+  .option("--use-bun", "Explicitly tell the CLI to bootstrap the app using bun")
+  .option(
+    "--use-pnpm",
+    "Explicitly tell the CLI to bootstrap the app using pnpm",
+  )
+  .option(
+    "--use-yarn",
+    "Explicitly tell the CLI to bootstrap the app using yarn",
+  )
+  .option("--use-npm", "Explicitly tell the CLI to bootstrap the app using npm")
+  .usage("<directory> [options]")
+  .parse(process.argv)
 
-// ~ add next-themes to the app
-spinner.start("Adding next-themes to the app")
-await $`${manager} add next-themes`
-spinner.succeed(chalk.green("Successfully added next-themes"))
+const opts: Opts = program.opts()
 
-// ~ configure next-themes
-spinner.start("Configuring next-themes")
-draft = `"use client"
-
-import { ThemeProvider as NextThemesProvider } from "next-themes"
-import { type ThemeProviderProps } from "next-themes/dist/types"
-import * as React from "react"
-
-export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
-  return <NextThemesProvider {...props}>{children}</NextThemesProvider>
+// useBun, usePnpm, useYarn and useNpm are mutually exclusive
+if (
+  [opts.useBun, opts.usePnpm, opts.useYarn, opts.useNpm].filter(Boolean)
+    .length > 1
+) {
+  console.log("error: use only one package manager")
+  process.exit(1)
 }
-`
-await fs.mkdir(src + "components/ui", { recursive: true })
-await fs.writeFile(src + "components/ui/theme-provider.tsx", draft, "utf-8")
-draft = await fs.readFile(src + "app/layout.tsx", "utf-8")
-draft = `import { ThemeProvider } from "@/components/ui/theme-provider"
-${draft}`
-replacement = `<ThemeProvider
-attribute="class"
-defaultTheme="system"
-enableSystem
-disableTransitionOnChange
->
-{children}
-</ThemeProvider>`
-draft = draft.replace(/{children}/g, replacement)
-await fs.writeFile(src + "app/layout.tsx", draft, "utf-8")
-spinner.succeed(chalk.green("Successfully configured next-themes"))
 
-// ~ add drizzle to the app
-spinner.start("Adding drizzle to the app")
-await $`${manager} add drizzle-orm postgres`
-await $`${manager} add -D drizzle-kit`
-spinner.succeed(chalk.green("Successfully added drizzle"))
+// update the config with existing options
+x.set(opts)
 
-// ~ configure drizzle
-spinner.start("Configuring drizzle")
-draft = `import { drizzle } from "drizzle-orm/postgres-js"
-import postgres from "postgres"
+// current working directory + cli directory
+x.set("directory", process.cwd() + "/" + program.args[0])
+// create the directory if it doesn't exist
+!fs.existsSync(x.get("directory") as PathLike) &&
+  fs.mkdirSync(x.get("directory") as PathLike, { recursive: true })
+// exit if the directory is not empty
+if (fs.readdirSync(x.get("directory") as PathLike).length) {
+  console.log("error: directory is not empty")
+  process.exit(1)
+}
 
-const queryClient = postgres("postgres://postgres:adminadmin@0.0.0.0:5432/db")
-export const db = drizzle(queryClient)
-`
-await fs.mkdir(src + "lib/db/drizzle", { recursive: true })
-await fs.writeFile(src + "lib/db/drizzle/index.ts", draft, "utf-8")
-spinner.succeed(chalk.green("Successfully configured drizzle"))
-
-// ~ cleanup
-spinner.start("Cleaning up")
 try {
-  await fs.rm(".git", { recursive: true, force: true })
+  packageManagerSelect()
+  // createNextApp()
 } catch {}
-await $`${runner} prettier --write .`
-await $`git init`
-await $`git add .`
-await $`git commit -m ${`Init via ${runner} create-next-pro`}`
-spinner.succeed(chalk.green("Successfully cleaned up"))
