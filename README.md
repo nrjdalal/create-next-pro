@@ -1,3 +1,5 @@
+Status: Pre-release
+
 # Create and deploy Next.js app with lightning speed
 
 - package link - [npmjs.com](https://www.npmjs.com/package/create-next-pro)
