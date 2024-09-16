@@ -19,9 +19,9 @@ const { manager, runner }: any = await select({
 
 // ~ create a Next.js app
 opts = await createNextAppOptions()
-opts.noSrcDir !== "--no-src-dir" ? (src = "src/") : (src = "")
+opts.srcDir !== "--no-src-dir" ? (src = "src/") : (src = "")
 spinner.start("Creating a Next.js app")
-await $`${runner} create-next-app . --ts --eslint --tailwind --app ${opts.noSrcDir} --import-alias ${"@/*"}`
+await $`${runner} create-next-app . --ts --eslint --tailwind --app ${opts.srcDir} --import-alias ${"@/*"}`
 spinner.succeed(chalk.green("Successfully created app"))
 
 // ~ add prettier to the app
@@ -45,7 +45,7 @@ spinner.succeed(chalk.green("Successfully configured prettier"))
 
 // ~ add shadcn-ui to the app
 spinner.start("Adding shadcn-ui to the app")
-await $`${runner} shadcn-ui init -d`
+await $`${runner} shadcn init -d`
 spinner.succeed(chalk.green("Successfully added shadcn-ui"))
 
 // ~ add next-themes to the app
@@ -81,24 +81,6 @@ disableTransitionOnChange
 draft = draft.replace(/{children}/g, replacement)
 await fs.writeFile(src + "app/layout.tsx", draft, "utf-8")
 spinner.succeed(chalk.green("Successfully configured next-themes"))
-
-// ~ add drizzle to the app
-spinner.start("Adding drizzle to the app")
-await $`${manager} add drizzle-orm postgres`
-await $`${manager} add -D drizzle-kit`
-spinner.succeed(chalk.green("Successfully added drizzle"))
-
-// ~ configure drizzle
-spinner.start("Configuring drizzle")
-draft = `import { drizzle } from "drizzle-orm/postgres-js"
-import postgres from "postgres"
-
-const queryClient = postgres("postgres://postgres:adminadmin@0.0.0.0:5432/db")
-export const db = drizzle(queryClient)
-`
-await fs.mkdir(src + "lib/db/drizzle", { recursive: true })
-await fs.writeFile(src + "lib/db/drizzle/index.ts", draft, "utf-8")
-spinner.succeed(chalk.green("Successfully configured drizzle"))
 
 // ~ cleanup
 spinner.start("Cleaning up")

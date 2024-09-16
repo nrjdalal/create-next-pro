@@ -1,11 +1,11 @@
 import confirm from "@inquirer/confirm"
 
 const createNextAppOptions = async () => {
-  const noSrcDir = await confirm({
-    message: "Recommended: Continue without `/src` directory?",
+  const srcDir = await confirm({
+    message: "Recommended: Use `/src` directory?",
   })
   return {
-    noSrcDir: noSrcDir ? "--no-src-dir" : "--src-dir",
+    srcDir: srcDir ? "--src-dir" : "--no-src-dir",
   }
 }
 
