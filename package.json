@@ -29,7 +29,7 @@
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.1.1",
     "@types/node": "^20.11.19",
-    "np": "^9.2.0",
+    "np": "^10.0.0",
     "prettier": "^3.2.5",
     "typescript": "^5.3.3"
   }
